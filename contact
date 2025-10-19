@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact - Restaurant Partenaire</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Exo+2:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+      :root {
+        --primary-color: #3498db;
+        --primary-dark: #2980b9;
+        --primary-light: #5dade2;
+        --secondary-color: #2c3e50;
+        --secondary-light: #34495e;
+        --secondary-dark: #1a252f;
+        --accent-color: #1abc9c;
+        --text-light: #f5f5f5;
+        --text-dark: #2c3e50;
+        --background-light: #f8f9fa;
+        --background-dark: #121212;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --transition: all 0.3s ease;
+        --border-radius: 8px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        color: var(--text-dark);
+        background-color: var(--background-light);
+        overflow-x: hidden;
+      }
+
+      /* ===== HEADER ET NAVIGATION ===== */
+      header {
+        background-color: var(--secondary-color);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: var(--transition);
+      }
+
+      header.scrolled {
+        background-color: rgba(44, 62, 80, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        height: 60px;
+        width: 60px; /* Définit une largeur fixe pour un cercle parfait */
+        border-radius: 50%; /* Rend le logo complètement arrondi */
+        transition: var(--transition);
+        object-fit: cover; /* Assure que l'image s'adapte bien au cercle */
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      nav a:hover {
+        color: var(--primary-light);
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: var(--primary-light);
+        transition: var(--transition);
+        transform: translateX(-50%);
+      }
+
+      nav a:hover::after {
+        width: 80%;
+      }
+
+      /* ===== BOUTON BURGER (MOBILE) ===== */
+      .burger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+      }
+
+      .burger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-light);
+        margin: 3px 0;
+        transition: var(--transition);
+        border-radius: 2px;
+      }
+
+      .burger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .burger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .burger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      /* ===== HERO SECTION ===== */
+      .hero {
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+        color: var(--text-light);
+        padding: 150px 5% 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSg1MywgMTUzLCAyMTUsIDAuMDUpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+');
+        opacity: 0.3;
+      }
+
+      .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero h1 {
+        font-family: 'Exo 2', sans-serif;
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      .hero h1::after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .hero p {
+        max-width: 800px;
+        margin: 40px auto 0;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8;
+      }
+
+      /* ===== MAIN CONTENT ===== */
+      main {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 80px 5%;
+      }
+
+      .section-title {
+        text-align: center;
+        margin: 60px 0 30px;
+        font-size: 2.5rem;
+        position: relative;
+        font-family: 'Exo 2', sans-serif;
+        color: var(--secondary-color);
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .intro {
+        text-align: center;
+        max-width: 800px;
+        margin: 40px auto 50px;
+        font-size: 1.2rem;
+        color: #555;
+        line-height: 1.8;
+      }
+
+      /* ===== CONTACT CARDS ===== */
+      .contact-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .contact-card {
+        background: white;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+        cursor: pointer;
+      }
+
+      .contact-card.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .contact-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+      }
+
+      .contact-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .contact-icon {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: white;
+        padding: 25px;
+        text-align: center;
+        font-size: 2.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .contact-icon::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(45deg);
+        transition: all 0.5s;
+      }
+
+      .contact-card:hover .contact-icon::after {
+        transform: rotate(45deg) translate(50%, 50%);
+      }
+
+      .contact-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .contact-content h3 {
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        color: var(--text-dark);
+        font-family: 'Exo 2', sans-serif;
+      }
+
+      .contact-content p {
+        color: #555;
+        margin-bottom: 20px;
+        flex-grow: 1;
+        font-size: 1.05rem;
+      }
+
+      /* ===== BOUTONS ===== */
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: white;
+        padding: 12px 25px;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+        font-size: 1rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition);
+      }
+
+      .button:hover::before {
+        left: 100%;
+      }
+
+      .button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+      }
+
+      .button-warning {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+      }
+
+      .button-warning:hover {
+        box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+      }
+
+      .button-secondary {
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+        color: var(--text-light);
+      }
+
+      .button-secondary:hover {
+        box-shadow: 0 6px 15px rgba(44, 62, 80, 0.4);
+      }
+
+      /* ===== FORMULAIRES ===== */
+      .form-container, .cv-form-section {
+        background: white;
+        padding: 50px;
+        border-radius: var(--border-radius);
+        margin-top: 40px;
+        display: none;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .form-container.active, .cv-form-section.active {
+        display: block;
+        animation: fadeInUp 0.6s ease;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 1.05rem;
+      }
+
+      .form-group label.required::after {
+        content: " *";
+        color: #e74c3c;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: var(--border-radius);
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+        transition: var(--transition);
+        box-sizing: border-box;
+        background: #fff;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .form-row {
+        display: flex;
+        gap: 20px;
+      }
+
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      /* ===== SECTIONS D'INFORMATION ===== */
+      .discord-info, .confidential-notice {
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05));
+        border-left: 6px solid #3498db;
+        padding: 25px;
+        margin: 30px 0;
+        border-radius: var(--border-radius);
+        backdrop-filter: blur(10px);
+      }
+
+      .discord-info h4, .confidential-notice h4 {
+        margin: 0 0 12px 0;
+        color: #2980b9;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.2rem;
+      }
+
+      .discord-info p, .confidential-notice p {
+        margin: 0;
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .discord-id-example {
+        background: #fff;
+        border: 2px solid #e9ecef;
+        border-radius: var(--border-radius);
+        padding: 12px;
+        margin-top: 12px;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 0.95rem;
+        color: var(--text-dark);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+
+      /* ===== OPTIONS DE SELECTION ===== */
+      .partnership-type-options, .problem-type-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin-top: 8px;
+      }
+
+      .availability-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .partnership-type-option, .problem-type-option, .availability-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 18px;
+        border: 2px solid #e9ecef;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: var(--transition);
+        background: #fff;
+      }
+
+      .partnership-type-option:hover, .problem-type-option:hover, .availability-option:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.1);
+      }
+
+      .partnership-type-option.selected, .problem-type-option.selected, .availability-option.selected {
+        border-color: var(--primary-color);
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05));
+        transform: translateY(-2px);
+      }
+
+      .problem-type-option:hover {
+        border-color: #e74c3c;
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.1);
+      }
+
+      .problem-type-option.selected {
+        border-color: #e74c3c;
+        background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
+      }
+
+      /* ===== MESSAGES DE CONFIRMATION ===== */
+      .confirmation-message {
+        display: none;
+        text-align: center;
+        padding: 40px;
+        background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(46, 204, 113, 0.05));
+        border-radius: var(--border-radius);
+        margin-top: 30px;
+        border: 2px solid rgba(46, 204, 113, 0.2);
+      }
+
+      .confirmation-message h3 {
+        color: #27ae60;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+      }
+
+      .confirmation-message p {
+        color: #555;
+        line-height: 1.7;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+      }
+
+      .timer-message {
+        color: #e74c3c;
+        font-size: 1rem;
+        margin-top: 15px;
+        text-align: center;
+        padding: 15px;
+        background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
+        border-radius: var(--border-radius);
+        border: 2px solid rgba(231, 76, 60, 0.2);
+        font-weight: 500;
+      }
+
+      /* ===== SECTION EMPLACEMENT ===== */
+      .location-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        margin-top: 40px;
+      }
+
+      .location-details {
+        flex: 1;
+        min-width: 320px;
+        background: white;
+        padding: 40px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .location-details h3 {
+        margin-bottom: 20px;
+        color: var(--text-dark);
+        font-size: 1.6rem;
+        border-bottom: 3px solid var(--primary-color);
+        padding-bottom: 10px;
+        font-family: 'Exo 2', sans-serif;
+      }
+
+      .location-details p {
+        margin-bottom: 15px;
+        color: #555;
+        line-height: 1.7;
+        font-size: 1.05rem;
+      }
+
+      .location-details strong {
+        color: var(--text-dark);
+      }
+
+      /* ===== GALLERIE D'IMAGES ===== */
+      .image-container {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+        margin-top: 25px;
+      }
+
+      .image-container img {
+        width: 48%;
+        max-width: 350px;
+        cursor: pointer;
+        transition: var(--transition);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        border: 3px solid transparent;
+      }
+
+      .image-container img:hover {
+        transform: scale(1.05) rotate(1deg);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        border-color: var(--primary-color);
+      }
+
+      /* ===== LIGHTBOX ===== */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 2000;
+        backdrop-filter: blur(10px);
+      }
+
+      .lightbox img {
+        max-width: 85%;
+        max-height: 85%;
+        border-radius: var(--border-radius);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        animation: zoomIn 0.3s ease;
+      }
+
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+      }
+
+      .lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background-color: var(--secondary-color);
+        color: var(--text-light);
+        padding: 3rem 5% 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-column h3 {
+        font-family: 'Exo 2', sans-serif;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+      }
+
+      .footer-column h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--primary-color);
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-column a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-column a:hover {
+        color: var(--primary-light);
+        padding-left: 5px;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .footer-bottom a {
+        color: var(--primary-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-bottom a:hover {
+        color: var(--primary-color);
+      }
+
+      /* ===== BOUTON SCROLL TO TOP ===== */
+      .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition);
+        z-index: 1000;
+      }
+
+      .scroll-to-top:hover {
+        transform: translateY(-3px) scale(1.1);
+        box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+      }
+
+      /* ===== LOADING SPINNER ===== */
+      .loading-spinner {
+        display: none;
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* ===== MEDIA QUERIES ===== */
+      @media (max-width: 768px) {
+        nav ul {
+          position: fixed;
+          top: 80px;
+          right: -100%;
+          width: 80%;
+          height: calc(100vh - 80px);
+          background-color: var(--secondary-color);
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 2rem;
+          transition: var(--transition);
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav ul.active {
+          right: 0;
+        }
+        
+        .burger {
+          display: flex;
+        }
+        
+        .hero {
+          padding: 120px 5% 60px;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .contact-options {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .form-row {
+          flex-direction: column;
+          gap: 25px;
+        }
+
+        .date-time-picker {
+          flex-direction: column;
+        }
+
+        .image-container img {
+          width: 90%;
+          margin-bottom: 20px;
+        }
+
+        .location-info {
+          flex-direction: column;
+          gap: 30px;
+        }
+
+        .location-details {
+          min-width: auto;
+        }
+
+        .partnership-type-options,
+        .problem-type-options,
+        .availability-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .form-container, .cv-form-section {
+          padding: 30px 20px;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .contact-content {
+          padding: 20px;
+        }
+
+        .button {
+          padding: 12px 24px;
+          font-size: 1rem;
+        }
+
+        .scroll-to-top {
+          bottom: 20px;
+          right: 20px;
+          width: 50px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header id="header">
+      <nav>
+        <img src="https://i.goopics.net/brvl3d.png" alt="Logo Restaurant Partenaire" class="logo" />
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="menu.html">Notre Carte</a></li>
+          <li><a href="reservation.html">Réservation</a></li>
+          <li><a href="equipe.html">Notre Équipe</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div
+          class="burger"
+          id="burger"
+          aria-label="Menu navigation"
+          role="button"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Contactez-nous</h1>
+        <p>
+          Notre restaurant partenaire valorise la communication et la transparence. 
+          Que vous souhaitiez collaborer avec nous, signaler un problème ou rejoindre notre équipe, 
+          nous sommes à votre écoute.
+        </p>
+      </div>
+    </section>
+
+    <main>
+      <!-- Section Contact -->
+      <section>
+        <div class="contact-options">
+          <div class="contact-card" data-form="partnership-form">
+            <div class="contact-icon">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <div class="contact-content">
+              <h3>Devenir Partenaire</h3>
+              <p>Pour discuter d'un partenariat commercial, collaboration ou projet commun avec notre restaurant.</p>
+              <div class="button">Demander un partenariat</div>
+            </div>
+          </div>
+
+          <div class="contact-card" data-form="problem-form">
+            <div class="contact-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="contact-content">
+              <h3>Problème avec un employé</h3>
+              <p>Signaler un problème rencontré avec un membre de notre équipe ou de la direction.</p>
+              <div class="button button-warning">Signaler un problème</div>
+            </div>
+          </div>
+
+          <div class="contact-card" data-form="cv-form">
+            <div class="contact-icon">
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="contact-content">
+              <h3>Candidature</h3>
+              <p>Vous souhaitez rejoindre notre équipe ? Postulez en remplissant notre formulaire de candidature.</p>
+              <div class="button">Postuler maintenant</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Devenir Partenaire -->
+      <section id="partnership-section">
+        <h2 class="section-title">Devenir Partenaire</h2>
+        <p class="intro">
+          Vous souhaitez collaborer avec notre restaurant ? Que ce soit pour un partenariat commercial, 
+          une collaboration événementielle ou tout autre projet, nous sommes ouverts à discuter de nouvelles opportunités.
+        </p>
+
+        <div class="form-container" id="partnership-form-container">
+          <form id="partnership-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="partnership-name" class="required">Nom complet</label>
+                <input type="text" id="partnership-name" name="name" required placeholder="Votre nom complet" />
+              </div>
+              <div class="form-group">
+                <label for="partnership-company" class="required">Entreprise/Organisation</label>
+                <input type="text" id="partnership-company" name="company" required placeholder="Nom de votre entreprise" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="partnership-position" class="required">Poste occupé</label>
+                <input type="text" id="partnership-position" name="position" required placeholder="Votre fonction" />
+              </div>
+              <div class="form-group">
+                <label for="partnership-phone" class="required">Téléphone</label>
+                <input type="tel" id="partnership-phone" name="phone" required placeholder="Votre numéro de téléphone" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="partnership-email" class="required">Adresse email</label>
+                <input type="email" id="partnership-email" name="email" required placeholder="Votre email professionnel" />
+              </div>
+              <div class="form-group">
+                <label for="partnership-website">Site web</label>
+                <input type="url" id="partnership-website" name="website" placeholder="https://votre-entreprise.com" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="required">Type de partenariat envisagé</label>
+              <div class="partnership-type-options">
+                <label class="partnership-type-option">
+                  <input type="radio" name="partnership-type" value="fournisseur" required>
+                  <span>Fournisseur</span>
+                </label>
+                <label class="partnership-type-option">
+                  <input type="radio" name="partnership-type" value="evenementiel">
+                  <span>Partenariat événementiel</span>
+                </label>
+                <label class="partnership-type-option">
+                  <input type="radio" name="partnership-type" value="catering">
+                  <span>Service de traiteur</span>
+                </label>
+                <label class="partnership-type-option">
+                  <input type="radio" name="partnership-type" value="promotionnel">
+                  <span>Partenariat promotionnel</span>
+                </label>
+                <label class="partnership-type-option">
+                  <input type="radio" name="partnership-type" value="autre">
+                  <span>Autre type de collaboration</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row date-time-picker">
+              <div class="form-group">
+                <label for="partnership-date">Date souhaitée pour un rendez-vous</label>
+                <input type="date" id="partnership-date" name="preferred-date" min="">
+              </div>
+              <div class="form-group">
+                <label for="partnership-time">Horaire préféré</label>
+                <select id="partnership-time" name="preferred-time">
+                  <option value="">Choisir un horaire</option>
+                  <option value="09:00-10:00">09:00 - 10:00</option>
+                  <option value="10:00-11:00">10:00 - 11:00</option>
+                  <option value="11:00-12:00">11:00 - 12:00</option>
+                  <option value="14:00-15:00">14:00 - 15:00</option>
+                  <option value="15:00-16:00">15:00 - 16:00</option>
+                  <option value="16:00-17:00">16:00 - 17:00</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="partnership-description" class="required">Description du projet de partenariat</label>
+              <textarea id="partnership-description" name="description" rows="5" required placeholder="Décrivez votre proposition de partenariat, vos objectifs et les bénéfices mutuels envisagés..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="partnership-message">Message complémentaire</label>
+              <textarea id="partnership-message" name="message" rows="3" placeholder="Informations supplémentaires que vous souhaitez nous communiquer..."></textarea>
+            </div>
+
+            <button type="submit" id="partnership-submit-btn" class="button">
+              <span id="partnership-btn-text">Envoyer la demande de partenariat</span>
+              <div class="loading-spinner" id="partnership-spinner"></div>
+            </button>
+            <div class="confirmation-message" id="partnership-confirmation">
+              <h3>✅ Demande de partenariat envoyée !</h3>
+              <p>Votre demande a été transmise à notre équipe. Nous l'étudierons avec attention et vous recontacterons dans les plus brefs délais.</p>
+              <p><strong>Merci pour votre intérêt à collaborer avec notre restaurant !</strong></p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section Signalement problème employé -->
+      <section id="problem-section">
+        <h2 class="section-title">Signaler un problème avec un employé</h2>
+        <p class="intro">
+          Votre satisfaction et votre bien-être sont notre priorité. Si vous avez rencontré un problème 
+          avec un membre de notre équipe ou de notre direction, nous vous remercions de nous le signaler 
+          afin que nous puissions traiter la situation.
+        </p>
+
+        <div class="confidential-notice">
+          <h4><i class="fas fa-lock"></i> Traitement confidentiel</h4>
+          <p>Votre signalement sera traité de manière confidentielle et discrète. Nous nous engageons à examiner chaque situation avec sérieux et impartialité.</p>
+        </div>
+
+        <div class="form-container" id="problem-form-container">
+          <form id="problem-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="problem-name" class="required">Votre nom</label>
+                <input type="text" id="problem-name" name="name" required placeholder="Votre nom complet" />
+              </div>
+              <div class="form-group">
+                <label for="problem-relation" class="required">Votre relation avec notre restaurant</label>
+                <select id="problem-relation" name="relation" required>
+                  <option value="">Sélectionnez...</option>
+                  <option value="client">Client</option>
+                  <option value="fournisseur">Fournisseur</option>
+                  <option value="partenaire">Partenaire</option>
+                  <option value="employe">Employé actuel</option>
+                  <option value="ancien-employe">Ancien employé</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="problem-phone" class="required">Téléphone</label>
+                <input type="tel" id="problem-phone" name="phone" required placeholder="Votre numéro de téléphone" />
+              </div>
+              <div class="form-group">
+                <label for="problem-email">Adresse email</label>
+                <input type="email" id="problem-email" name="email" placeholder="Votre email (optionnel)" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="required">Type de problème rencontré</label>
+              <div class="problem-type-options">
+                <label class="problem-type-option">
+                  <input type="radio" name="problem-type" value="comportement" required>
+                  <span>Problème de comportement</span>
+                </label>
+                <label class="problem-type-option">
+                  <input type="radio" name="problem-type" value="professionnalisme">
+                  <span>Manque de professionnalisme</span>
+                </label>
+                <label class="problem-type-option">
+                  <input type="radio" name="problem-type" value="discrimination">
+                  <span>Discrimination/harcèlement</span>
+                </label>
+                <label class="problem-type-option">
+                  <input type="radio" name="problem-type" value="hygiene">
+                  <span>Problème d'hygiène</span>
+                </label>
+                <label class="problem-type-option">
+                  <input type="radio" name="problem-type" value="service">
+                  <span>Mauvais service</span>
+                </label>
+                <label class="problem-type-option">
+                  <input type="radio" name="problem-type" value="autre">
+                  <span>Autre problème</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="problem-person" class="required">Personne concernée</label>
+                <input type="text" id="problem-person" name="person" required placeholder="Nom de l'employé ou membre de la direction" />
+              </div>
+              <div class="form-group">
+                <label for="problem-position">Fonction de la personne</label>
+                <input type="text" id="problem-position" name="person-position" placeholder="Fonction (si connue)" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="problem-date" class="required">Date de l'incident</label>
+                <input type="date" id="problem-date" name="incident-date" required />
+              </div>
+              <div class="form-group">
+                <label for="problem-location">Lieu de l'incident</label>
+                <input type="text" id="problem-location" name="location" placeholder="Lieu où s'est produit l'incident" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="problem-description" class="required">Description détaillée des faits</label>
+              <textarea id="problem-description" name="description" rows="6" required placeholder="Décrivez de manière précise et objective les faits, le contexte et les personnes présentes..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="problem-impact">Impact sur vous ou l'entreprise</label>
+              <textarea id="problem-impact" name="impact" rows="3" placeholder="Quelles ont été les conséquences de cette situation ?"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="problem-previous">Avez-vous déjà signalé ce problème ?</label>
+              <select id="problem-previous" name="previous-report">
+                <option value="non">Non, c'est la première fois</option>
+                <option value="oui-interne">Oui, en interne</option>
+                <option value="oui-externe">Oui, à des instances externes</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="problem-expectation">Que souhaitez-vous comme résolution ?</label>
+              <textarea id="problem-expectation" name="expectation" rows="3" placeholder="Qu'attendez-vous de notre part pour résoudre cette situation ?"></textarea>
+            </div>
+
+            <button type="submit" class="button button-warning">
+              <span id="problem-btn-text">Envoyer le signalement</span>
+              <div class="loading-spinner" id="problem-spinner"></div>
+            </button>
+            <div class="confirmation-message" id="problem-confirmation">
+              <h3>✅ Signalement envoyé avec succès !</h3>
+              <p>Votre signalement a été transmis à notre équipe de gestion des ressources humaines. Nous traiterons votre demande avec la plus grande confidentialité et prendrons les mesures appropriées si nécessaire.</p>
+              <p>Nous vous remercions de contribuer à maintenir un environnement de travail sain et respectueux.</p>
+              <p><strong>Merci pour votre vigilance !</strong></p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section Candidature avec disponibilités non obligatoires -->
+      <section id="cv-section">
+        <h2 class="section-title">Rejoignez notre équipe</h2>
+        <p class="intro">
+          Notre restaurant recherche des talents passionnés par la restauration. 
+          Remplissez ce formulaire de candidature complet pour postuler au sein de notre établissement.
+        </p>
+
+        <div class="confidential-notice">
+          <h4><i class="fas fa-lock"></i> Confidentialité des données</h4>
+          <p>Vos informations personnelles seront traitées de manière confidentielle et sécurisée, conformément à la réglementation sur la protection des données.</p>
+        </div>
+
+        <div class="cv-form-section" id="cv-form-container">
+          <form id="cv-form">
+            <h3 class="section-title">Informations personnelles</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="lastname" class="required">Nom</label>
+                <input type="text" id="lastname" name="lastname" required placeholder="Votre nom de famille">
+              </div>
+              <div class="form-group">
+                <label for="firstname" class="required">Prénom</label>
+                <input type="text" id="firstname" name="firstname" required placeholder="Votre prénom">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="birthdate" class="required">Date de Naissance</label>
+                <input type="date" id="birthdate" name="birthdate" required max="">
+              </div>
+              <div class="form-group">
+                <label for="phone" class="required">Numéro de téléphone</label>
+                <input type="tel" id="phone" name="phone" required placeholder="06 12 34 56 78">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rib" class="required">RIB</label>
+                <input type="text" id="rib" name="rib" required placeholder="Votre RIB complet">
+              </div>
+              <div class="form-group">
+                <label for="locker_code" class="required">Code à 4 chiffres (vestiaire)</label>
+                <input type="password" id="locker_code" name="locker_code" required placeholder="****" pattern="[0-9]{4}" maxlength="4" minlength="4">
+              </div>
+            </div>
+
+            <h3 class="section-title">Poste recherché</h3>
+
+            <div class="form-group">
+              <label for="position" class="required">Poste souhaité</label>
+              <select id="position" name="position" required>
+                <option value="">Sélectionnez un poste</option>
+                <option value="serveur">Serveur/Serveuse</option>
+                <option value="cuisinier">Cuisinier</option>
+                <option value="commis">Commis de cuisine</option>
+                <option value="barman">Barman/Barmaid</option>
+                <option value="hotesse">Hôtesse d'accueil</option>
+                <option value="plongeur">Plongeur</option>
+                <option value="gestionnaire">Gestionnaire</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+
+            <h3 class="section-title">Expérience professionnelle</h3>
+
+            <div class="form-group">
+              <label for="experience" class="required">Expériences</label>
+              <textarea id="experience" name="experience" rows="6" required placeholder="Décrivez vos expériences professionnelles, stages, formations en rapport avec le poste..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="motivation" class="required">Motivations</label>
+              <textarea id="motivation" name="motivation" rows="4" required placeholder="Pourquoi souhaitez-vous rejoindre notre restaurant ? Qu'est-ce qui vous motive ?"></textarea>
+            </div>
+
+            <h3 class="section-title">Disponibilités <span class="optional-section">(optionnel)</span></h3>
+
+            <div class="form-group">
+              <label>Horaires et jours disponibles</label>
+              <div class="availability-grid">
+                <label class="availability-option">
+                  <input type="checkbox" name="availability[]" value="lundi">
+                  <span>Lundi</span>
+                </label>
+                <label class="availability-option">
+                  <input type="checkbox" name="availability[]" value="mardi">
+                  <span>Mardi</span>
+                </label>
+                <label class="availability-option">
+                  <input type="checkbox" name="availability[]" value="mercredi">
+                  <span>Mercredi</span>
+                </label>
+                <label class="availability-option">
+                  <input type="checkbox" name="availability[]" value="jeudi">
+                  <span>Jeudi</span>
+                </label>
+                <label class="availability-option">
+                  <input type="checkbox" name="availability[]" value="vendredi">
+                  <span>Vendredi</span>
+                </label>
+                <label class="availability-option">
+                  <input type="checkbox" name="availability[]" value="samedi">
+                  <span>Samedi</span>
+                </label>
+                <label class="availability-option">
+                  <input type="checkbox" name="availability[]" value="dimanche">
+                  <span>Dimanche</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="start_time">Heure de début préférée</label>
+                <select id="start_time" name="start_time">
+                  <option value="">Sélectionnez (optionnel)</option>
+                  <option value="06:00">06:00</option>
+                  <option value="07:00">07:00</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="12:00">12:00</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="end_time">Heure de fin préférée</label>
+                <select id="end_time" name="end_time">
+                  <option value="">Sélectionnez (optionnel)</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                </select>
+              </div>
+            </div>
+
+            <h3 class="section-title">Contact Discord</h3>
+
+            <div class="discord-info">
+              <h4><i class="fab fa-discord"></i> ID Discord requis</h4>
+              <p>Nous utilisons Discord pour communiquer avec notre équipe. Veuillez fournir votre identifiant Discord complet pour que nous puissions vous contacter.</p>
+              <div class="discord-id-example">
+                Exemple: username#1234
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="discord_id" class="required">Votre ID Discord complet</label>
+              <input type="text" id="discord_id" name="discord_id" required placeholder="295123967633522688" pattern="[0-9]{18}">
+            </div>
+
+            <div class="timer-message" id="timer-message" style="display: none;">
+              <p><i class="fas fa-clock"></i> Vous avez déjà soumis une candidature récemment. Vous pourrez soumettre à nouveau votre CV dans : <span id="countdown-timer">5 heures</span></p>
+            </div>
+
+            <button type="submit" class="button" id="cv-submit-btn">
+              <span id="cv-btn-text">Envoyer ma candidature</span>
+              <div class="loading-spinner" id="cv-spinner"></div>
+            </button>
+            
+            <div class="confirmation-message" id="cv-confirmation">
+              <h3>✅ Candidature envoyée avec succès !</h3>
+              <p>Votre candidature a été transmise à notre service recrutement. Nous étudierons votre profil avec attention et vous recontacterons sur Discord sous peu.</p>
+              <p><strong>Merci pour votre intérêt à rejoindre notre équipe !</strong></p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section En Ville -->
+      <section id="location">
+        <h2 class="section-title">Notre emplacement</h2>
+        <div class="location-info">
+          <div class="location-details">
+            <h3>Restaurant Partenaire</h3>
+            <p><strong><i class="fas fa-map-marker-alt"></i> Adresse :</strong> Route 68, Senora Way</p>
+            <p><strong><i class="fas fa-phone"></i> Téléphone :</strong> 385</p>
+            <p><strong><i class="fas fa-envelope"></i> Email :</strong> restaurant.partenaire@gmail.fb</p>
+            <p><strong>Horaires d'ouverture :</strong></p>
+            <p>Lundi - Vendredi : 24h/24 </p>
+            <p>Samedi : 24h/24</p>
+            <p>Dimanche : 24h/24</p>
+            
+            <div style="margin-top: 25px;">
+              <a href="tel:385" class="button"><i class="fas fa-phone"></i> Nous appeler</a>
+              <a href="mailto:restaurant.partenaire@gmail.fb" class="button button-secondary" style="margin-left: 12px;"><i class="fas fa-envelope"></i> Envoyer un email</a>
+            </div>
+          </div>
+
+          <div class="location-details">
+            <h3>Plan d'accès</h3>
+            <div class="image-container">
+              <img src="https://i.goopics.net/k2xg5l.jpg" alt="Plan du restaurant et de la ville 1" />
+              <img src="https://i.goopics.net/e23py5.png" alt="Plan du restaurant et de la ville 2" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" aria-label="Fermer">&times;</button>
+      <img src="" alt="Agrandissement image" />
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Remonter en haut">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Restaurant Partenaire</h3>
+          <p>Votre partenaire de confiance pour une expérience culinaire exceptionnelle à Los Santos.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="service.html">Nos Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="l'Équipe de Direction.html">Équipe de Direction</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> Route 68, Los Santos</li>
+            <li><i class="fas fa-phone"></i> +385</li>
+            <li><i class="fas fa-envelope"></i> restaurant.partenaire@gmail.fb</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy;
+          <a href="juridique.html"
+            >2025 Restaurant Partenaire. Tous droits réservés.</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Menu burger
+      const burger = document.getElementById("burger");
+      const menu = document.querySelector("nav ul");
+
+      burger.addEventListener("click", () => {
+        burger.classList.toggle("active");
+        menu.classList.toggle("active");
+      });
+
+      // Header scroll effect
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Animation des cartes de contact
+        const contactCards = document.querySelectorAll('.contact-card');
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate');
+            }
+          });
+        }, observerOptions);
+
+        contactCards.forEach(card => {
+          observer.observe(card);
+        });
+
+        // Lightbox pour images
+        const images = document.querySelectorAll(".image-container img");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = lightbox.querySelector("img");
+        const lightboxClose = lightbox.querySelector(".lightbox-close");
+
+        images.forEach((img) => {
+          img.addEventListener("click", () => {
+            lightbox.style.display = "flex";
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        const closeLightbox = () => {
+          lightbox.style.display = "none";
+          lightboxImg.src = "";
+          lightboxImg.alt = "";
+          document.body.style.overflow = 'auto';
+        };
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener("click", (e) => {
+          if (e.target === lightbox) {
+            closeLightbox();
+          }
+        });
+
+        // Fermer la lightbox avec la touche Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+            closeLightbox();
+          }
+        });
+
+        // Navigation entre les formulaires
+        const contactCardsNav = document.querySelectorAll('.contact-card[data-form]');
+        const formContainers = document.querySelectorAll('.form-container, .cv-form-section');
+        
+        contactCardsNav.forEach(card => {
+          card.addEventListener('click', () => {
+            const formId = card.getAttribute('data-form');
+            
+            // Masquer tous les formulaires avec animation
+            formContainers.forEach(container => {
+              if (container.classList.contains('active')) {
+                container.style.animation = 'fadeOutDown 0.4s ease';
+                setTimeout(() => {
+                  container.classList.remove('active');
+                  container.style.animation = '';
+                }, 400);
+              }
+            });
+            
+            // Afficher le formulaire sélectionné
+            const targetForm = document.getElementById(`${formId}-container`);
+            if (targetForm) {
+              setTimeout(() => {
+                targetForm.classList.add('active');
+                targetForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 450);
+            }
+          });
+        });
+
+        // Gestion des sélections visuelles
+        const setupOptionSelection = (selector) => {
+          document.querySelectorAll(selector).forEach(option => {
+            const input = option.querySelector('input');
+            option.addEventListener('click', function() {
+              if (input.type === 'radio') {
+                document.querySelectorAll(selector).forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                input.checked = true;
+              } else if (input.type === 'checkbox') {
+                this.classList.toggle('selected');
+                input.checked = !input.checked;
+              }
+            });
+          });
+        };
+
+        setupOptionSelection('.partnership-type-option');
+        setupOptionSelection('.problem-type-option');
+        setupOptionSelection('.availability-option');
+
+        // Scroll to Top
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+          if (window.pageYOffset > 300) {
+            scrollToTopBtn.style.display = 'flex';
+          } else {
+            scrollToTopBtn.style.display = 'none';
+          }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+
+        // Initialisation des dates
+        const today = new Date();
+        const minDate = today.toISOString().split('T')[0];
+        
+        // Date minimum pour les rendez-vous partenariat (aujourd'hui)
+        const partnershipDate = document.getElementById('partnership-date');
+        if (partnershipDate) {
+          partnershipDate.min = minDate;
+        }
+        
+        // Date maximum pour les incidents (aujourd'hui)
+        const problemDate = document.getElementById('problem-date');
+        if (problemDate) {
+          problemDate.max = minDate;
+        }
+
+        // Initialisation de la date max pour la date de naissance (16 ans minimum)
+        const birthdate = document.getElementById('birthdate');
+        if (birthdate) {
+          const maxBirthDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+          birthdate.max = maxBirthDate.toISOString().split('T')[0];
+        }
+
+        // Vérification de la limitation lors de la saisie de l'ID Discord
+        const discordIdInput = document.getElementById('discord_id');
+        const timerMessage = document.getElementById('timer-message');
+        const countdownTimer = document.getElementById('countdown-timer');
+        const cvSubmitBtn = document.getElementById('cv-submit-btn');
+
+        // Gestionnaire de limitation d'envoi de CV
+        class CVLimiter {
+          constructor() {
+            this.storageKey = 'cv_submission_times';
+            this.cooldownHours = 5;
+            this.cooldownMs = this.cooldownHours * 60 * 60 * 1000;
+          }
+
+          getSubmissionHistory() {
+            try {
+              const history = localStorage.getItem(this.storageKey);
+              return history ? JSON.parse(history) : {};
+            } catch (error) {
+              console.error('Erreur lors de la lecture du localStorage:', error);
+              return {};
+            }
+          }
+
+          saveSubmissionHistory(history) {
+            try {
+              localStorage.setItem(this.storageKey, JSON.stringify(history));
+            } catch (error) {
+              console.error('Erreur lors de l\'écriture dans le localStorage:', error);
+            }
+          }
+
+          canSubmit(discordId) {
+            if (!discordId || discordId.length < 18) return true;
+            
+            const history = this.getSubmissionHistory();
+            const lastSubmission = history[discordId];
+            
+            if (!lastSubmission) return true;
+
+            const timeSinceLastSubmission = Date.now() - lastSubmission;
+            return timeSinceLastSubmission >= this.cooldownMs;
+          }
+
+          recordSubmission(discordId) {
+            if (!discordId || discordId.length < 18) return;
+            
+            const history = this.getSubmissionHistory();
+            history[discordId] = Date.now();
+            this.saveSubmissionHistory(history);
+          }
+
+          getTimeRemaining(discordId) {
+            const history = this.getSubmissionHistory();
+            const lastSubmission = history[discordId];
+            
+            if (!lastSubmission) return 0;
+
+            const timeSinceLastSubmission = Date.now() - lastSubmission;
+            const timeRemaining = this.cooldownMs - timeSinceLastSubmission;
+            
+            return timeRemaining > 0 ? timeRemaining : 0;
+          }
+
+          formatTimeRemaining(ms) {
+            const hours = Math.floor(ms / (1000 * 60 * 60));
+            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+            
+            if (hours > 0) {
+              return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+            }
+            return `${minutes}m`;
+          }
+        }
+
+        // Initialiser le limiteur
+        const cvLimiter = new CVLimiter();
+
+        if (discordIdInput) {
+          discordIdInput.addEventListener('input', function() {
+            const discordId = this.value.trim();
+            
+            if (discordId.length >= 18 && /^\d{18}$/.test(discordId)) {
+              if (!cvLimiter.canSubmit(discordId)) {
+                const timeRemaining = cvLimiter.getTimeRemaining(discordId);
+                const formattedTime = cvLimiter.formatTimeRemaining(timeRemaining);
+                
+                timerMessage.style.display = 'block';
+                countdownTimer.textContent = formattedTime;
+                cvSubmitBtn.disabled = true;
+              } else {
+                timerMessage.style.display = 'none';
+                cvSubmitBtn.disabled = false;
+              }
+            } else {
+              timerMessage.style.display = 'none';
+              cvSubmitBtn.disabled = false;
+            }
+          });
+
+          // Vérifier au chargement de la page si l'ID Discord est déjà rempli
+          if (discordIdInput.value.trim().length >= 18) {
+            discordIdInput.dispatchEvent(new Event('input'));
+          }
+        }
+
+        // Fonction utilitaire pour gérer l'affichage du loading
+        const setLoadingState = (button, spinner, textElement, isLoading) => {
+          if (isLoading) {
+            button.disabled = true;
+            spinner.style.display = 'block';
+            textElement.style.opacity = '0.5';
+          } else {
+            button.disabled = false;
+            spinner.style.display = 'none';
+            textElement.style.opacity = '1';
+          }
+        };
+
+        // Gestion de la soumission du formulaire CV
+        const cvForm = document.getElementById('cv-form');
+        const cvConfirmation = document.getElementById('cv-confirmation');
+        const cvSpinner = document.getElementById('cv-spinner');
+        const cvBtnText = document.getElementById('cv-btn-text');
+
+        if (cvForm) {
+          cvForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const discordId = document.getElementById('discord_id').value.trim();
+
+            // Vérifier la limitation
+            if (!cvLimiter.canSubmit(discordId)) {
+              const timeRemaining = cvLimiter.getTimeRemaining(discordId);
+              const formattedTime = cvLimiter.formatTimeRemaining(timeRemaining);
+              alert(`Vous avez déjà soumis une candidature récemment. Veuillez attendre ${formattedTime} avant de soumettre à nouveau.`);
+              return;
+            }
+
+            // Validation de l'âge (au moins 16 ans)
+            const birthdate = new Date(document.getElementById('birthdate').value);
+            const age = today.getFullYear() - birthdate.getFullYear();
+            if (age < 16) {
+              alert('Vous devez avoir au moins 16 ans pour postuler.');
+              return;
+            }
+
+            // Validation du code vestiaire (4 chiffres)
+            const lockerCode = document.getElementById('locker_code').value;
+            if (!/^\d{4}$/.test(lockerCode)) {
+              alert('Le code vestiaire doit contenir exactement 4 chiffres.');
+              return;
+            }
+
+            // Validation de l'ID Discord
+            if (!/^[0-9]{18}$/.test(discordId)) {
+              alert('Veuillez entrer un ID Discord valide (18 chiffres)');
+              return;
+            }
+
+            setLoadingState(cvSubmitBtn, cvSpinner, cvBtnText, true);
+
+            // Enregistrer la soumission
+            cvLimiter.recordSubmission(discordId);
+
+            // REMPLACEZ CETTE URL PAR VOTRE WEBHOOK DISCORD
+            const webhookURL = "https://discord.com/api/webhooks/1420794667699802234/0jskBzrMb57Vbs2HBZs-Ay29naCza3CPi46O1NNWZl4ktgL5cgKH46PqQkNwtW3FTAHs";
+
+            // Récupération des données du formulaire
+            const availabilityCheckboxes = document.querySelectorAll('input[name="availability[]"]:checked');
+            const disponibilites = availabilityCheckboxes.length > 0 
+              ? Array.from(availabilityCheckboxes).map(cb => cb.value).join(', ')
+              : "Non spécifié";
+
+            const formData = {
+              nom: document.getElementById('lastname').value,
+              prenom: document.getElementById('firstname').value,
+              date_naissance: document.getElementById('birthdate').value,
+              telephone: document.getElementById('phone').value,
+              rib: document.getElementById('rib').value,
+              code_vestiaire: lockerCode,
+              discord_id: discordId,
+              poste: document.getElementById('position').value,
+              experiences: document.getElementById('experience').value,
+              motivations: document.getElementById('motivation').value,
+              disponibilites: disponibilites,
+              horaire_debut: document.getElementById('start_time').value || "Non spécifié",
+              horaire_fin: document.getElementById('end_time').value || "Non spécifié"
+            };
+
+            const data = {
+              content: "**📄 NOUVELLE CANDIDATURE !**",
+              embeds: [
+                {
+                  color: 3447003,
+                  title: "Candidature Restaurant Partenaire",
+                  fields: [
+                    { name: "👤 **Identité**", value: `${formData.prenom} ${formData.nom}`, inline: true },
+                    { name: "🎮 **Discord**", value: formData.discord_id, inline: true },
+                    { name: "🎂 **Date de naissance**", value: formData.date_naissance, inline: true },
+                    { name: "📞 **Téléphone**", value: formData.telephone, inline: true },
+                    { name: "💼 **Poste souhaité**", value: formData.poste, inline: true },
+                    { name: "🏦 **RIB**", value: `\`${formData.rib}\``, inline: false },
+                    { name: "🔐 **Code vestiaire**", value: `\`${formData.code_vestiaire}\``, inline: true },
+                    { name: "🕐 **Disponibilités**", value: formData.disponibilites, inline: true },
+                    { name: "⏰ **Horaires préférés**", value: `${formData.horaire_debut} - ${formData.horaire_fin}`, inline: true },
+                    { name: "💼 **Expériences**", value: formData.experiences.substring(0, 1000) + (formData.experiences.length > 1000 ? "..." : ""), inline: false },
+                    { name: "🎯 **Motivations**", value: formData.motivations.substring(0, 1000) + (formData.motivations.length > 1000 ? "..." : ""), inline: false }
+                  ],
+                  footer: { text: "Candidature envoyée via formulaire Restaurant Partenaire" },
+                  timestamp: new Date(),
+                },
+              ],
+            };
+
+            try {
+              const response = await fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+              });
+              
+              if (response.ok) {
+                // Afficher le message de confirmation
+                cvForm.style.display = "none";
+                cvConfirmation.style.display = "block";
+              } else {
+                throw new Error('Erreur réseau');
+              }
+              
+            } catch (err) {
+              console.error("Erreur :", err);
+              alert("❌ Une erreur est survenue lors de l'envoi de votre candidature. Veuillez réessayer.");
+            } finally {
+              setLoadingState(cvSubmitBtn, cvSpinner, cvBtnText, false);
+            }
+          });
+        }
+
+        // Gestion des autres formulaires (partenariat et problème)
+        const setupFormSubmission = (formId, confirmationId, spinnerId, btnTextId) => {
+          const form = document.getElementById(formId);
+          const confirmation = document.getElementById(confirmationId);
+          const spinner = document.getElementById(spinnerId);
+          const btnText = document.getElementById(btnTextId);
+          const submitBtn = form?.querySelector('button[type="submit"]');
+
+          if (!form || !submitBtn) return;
+
+          form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            setLoadingState(submitBtn, spinner, btnText, true);
+
+            // REMPLACEZ CETTE URL PAR VOTRE WEBHOOK DISCORD
+            const webhookURL = "https://discord.com/api/webhooks/1420794667699802234/0jskBzrMb57Vbs2HBZs-Ay29naCza3CPi46O1NNWZl4ktgL5cgKH46PqQkNwtW3FTAHs";
+
+            // Ici vous devriez récupérer les données du formulaire spécifique
+            // et construire l'objet data correspondant
+
+            try {
+              // Simuler l'envoi (remplacez par votre logique réelle)
+              await new Promise(resolve => setTimeout(resolve, 2000));
+              
+              form.style.display = "none";
+              confirmation.style.display = "block";
+              
+              // Réinitialiser après 5 secondes
+              setTimeout(() => {
+                form.reset();
+                form.style.display = "block";
+                confirmation.style.display = "none";
+              }, 5000);
+            } catch (err) {
+              console.error("Erreur :", err);
+              alert("❌ Une erreur est survenue, réessayez.");
+            } finally {
+              setLoadingState(submitBtn, spinner, btnText, false);
+            }
+          });
+        };
+
+        // Configurer les autres formulaires
+        setupFormSubmission('partnership-form', 'partnership-confirmation', 'partnership-spinner', 'partnership-btn-text');
+        setupFormSubmission('problem-form', 'problem-confirmation', 'problem-spinner', 'problem-btn-text');
+      });
+    </script>
+  </body>
+</html>
