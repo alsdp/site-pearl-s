@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Réservation - Pearl's</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Exo+2:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+      :root {
+        --primary-color: #2c5aa0;
+        --primary-dark: #1e3d72;
+        --primary-light: #4a7bc8;
+        --accent-color: #3498db;
+        --secondary-color: #1a1a2e;
+        --secondary-light: #2d3047;
+        --secondary-dark: #0f1123;
+        --text-light: #f5f5f5;
+        --text-dark: #333344;
+        --background-light: #f8f9fa;
+        --background-dark: #121826;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --transition: all 0.3s ease;
+        --border-radius: 8px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        color: var(--text-dark);
+        background-color: var(--background-light);
+        overflow-x: hidden;
+      }
+
+      /* ===== HEADER ET NAVIGATION ===== */
+      header {
+        background-color: var(--secondary-color);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: var(--transition);
+      }
+
+      header.scrolled {
+        background-color: rgba(26, 26, 46, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        height: 60px;
+        width: auto;
+        transition: var(--transition);
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      nav a:hover {
+        color: var(--primary-light);
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: var(--primary-light);
+        transition: var(--transition);
+        transform: translateX(-50%);
+      }
+
+      nav a:hover::after {
+        width: 80%;
+      }
+
+      /* ===== BOUTON BURGER (MOBILE) ===== */
+      .burger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+      }
+
+      .burger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-light);
+        margin: 3px 0;
+        transition: var(--transition);
+        border-radius: 2px;
+      }
+
+      .burger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .burger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .burger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      /* ===== HERO SECTION ===== */
+      .hero {
+        background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(26, 26, 46, 0.9)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+        background-size: cover;
+        background-position: center;
+        color: var(--text-light);
+        padding: 150px 5% 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero h1 {
+        font-family: 'Exo 2', sans-serif;
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      .hero h1::after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .hero p {
+        max-width: 800px;
+        margin: 40px auto 0;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8;
+      }
+
+      /* ===== MAIN CONTENT ===== */
+      main {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 80px 5%;
+      }
+
+      .section-title {
+        text-align: center;
+        margin: 60px 0 30px;
+        font-size: 2.5rem;
+        position: relative;
+        font-family: 'Exo 2', sans-serif;
+        color: var(--secondary-color);
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .intro {
+        text-align: center;
+        max-width: 800px;
+        margin: 40px auto 50px;
+        font-size: 1.2rem;
+        color: var(--text-dark);
+        line-height: 1.8;
+      }
+
+      /* ===== OPTIONS DE RÉSERVATION ===== */
+      .reservation-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .reservation-card {
+        background: var(--white);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+        cursor: pointer;
+      }
+
+      .reservation-card.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reservation-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+      }
+
+      .reservation-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .reservation-icon {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: var(--white);
+        padding: 25px;
+        text-align: center;
+        font-size: 2.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .reservation-icon::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(45deg);
+        transition: all 0.5s;
+      }
+
+      .reservation-card:hover .reservation-icon::after {
+        transform: rotate(45deg) translate(50%, 50%);
+      }
+
+      .reservation-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .reservation-content h3 {
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        color: var(--secondary-color);
+        font-family: 'Exo 2', sans-serif;
+      }
+
+      .reservation-content p {
+        color: var(--text-dark);
+        margin-bottom: 20px;
+        flex-grow: 1;
+        font-size: 1.05rem;
+      }
+
+      /* ===== BOUTONS ===== */
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: var(--white);
+        padding: 12px 25px;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+        font-size: 1rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition);
+      }
+
+      .button:hover::before {
+        left: 100%;
+      }
+
+      .button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(44, 90, 160, 0.4);
+      }
+
+      .button-outline {
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        box-shadow: none;
+      }
+
+      .button-outline:hover {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: var(--white);
+      }
+
+      /* ===== FORMULAIRES ===== */
+      .form-container {
+        background: var(--white);
+        padding: 50px;
+        border-radius: var(--border-radius);
+        margin-top: 40px;
+        display: none;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .form-container.active {
+        display: block;
+        animation: fadeInUp 0.6s ease;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 1.05rem;
+      }
+
+      .form-group label.required::after {
+        content: " *";
+        color: #e74c3c;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: var(--border-radius);
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+        transition: var(--transition);
+        box-sizing: border-box;
+        background: #fff;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .form-row {
+        display: flex;
+        gap: 20px;
+      }
+
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      /* ===== SECTIONS D'INFORMATION ===== */
+      .special-occasion-info, .confidential-notice {
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05));
+        border-left: 6px solid var(--accent-color);
+        padding: 25px;
+        margin: 30px 0;
+        border-radius: var(--border-radius);
+      }
+
+      .special-occasion-info h4, .confidential-notice h4 {
+        margin: 0 0 12px 0;
+        color: var(--accent-color);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.2rem;
+      }
+
+      .special-occasion-info p, .confidential-notice p {
+        margin: 0;
+        color: var(--text-dark);
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      /* ===== OPTIONS DE SELECTION ===== */
+      .occasion-type-options, .table-type-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin-top: 8px;
+      }
+
+      .occasion-type-option, .table-type-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 18px;
+        border: 2px solid #e9ecef;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: var(--transition);
+        background: #fff;
+      }
+
+      .occasion-type-option:hover, .table-type-option:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(44, 90, 160, 0.1);
+      }
+
+      .occasion-type-option.selected, .table-type-option.selected {
+        border-color: var(--primary-color);
+        background: linear-gradient(135deg, rgba(44, 90, 160, 0.1), rgba(44, 90, 160, 0.05));
+        transform: translateY(-2px);
+      }
+
+      /* ===== MESSAGES DE CONFIRMATION ===== */
+      .confirmation-message {
+        display: none;
+        text-align: center;
+        padding: 40px;
+        background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(46, 204, 113, 0.05));
+        border-radius: var(--border-radius);
+        margin-top: 30px;
+        border: 2px solid rgba(46, 204, 113, 0.2);
+      }
+
+      .confirmation-message h3 {
+        color: #27ae60;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+      }
+
+      .confirmation-message p {
+        color: var(--text-dark);
+        line-height: 1.7;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+      }
+
+      /* ===== SECTION EMPLACEMENT ===== */
+      .location-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        margin-top: 40px;
+      }
+
+      .location-details {
+        flex: 1;
+        min-width: 320px;
+        background: var(--white);
+        padding: 40px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .location-details h3 {
+        margin-bottom: 20px;
+        color: var(--secondary-color);
+        font-size: 1.6rem;
+        border-bottom: 3px solid var(--primary-color);
+        padding-bottom: 10px;
+        font-family: 'Exo 2', sans-serif;
+      }
+
+      .location-details p {
+        margin-bottom: 15px;
+        color: var(--text-dark);
+        line-height: 1.7;
+        font-size: 1.05rem;
+      }
+
+      .location-details strong {
+        color: var(--secondary-color);
+      }
+
+      /* ===== GALLERIE D'IMAGES ===== */
+      .image-container {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+        margin-top: 25px;
+      }
+
+      .image-container img {
+        width: 48%;
+        max-width: 350px;
+        cursor: pointer;
+        transition: var(--transition);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        border: 3px solid transparent;
+      }
+
+      .image-container img:hover {
+        transform: scale(1.05) rotate(1deg);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        border-color: var(--primary-color);
+      }
+
+      /* ===== LIGHTBOX ===== */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 2000;
+        backdrop-filter: blur(10px);
+      }
+
+      .lightbox img {
+        max-width: 85%;
+        max-height: 85%;
+        border-radius: var(--border-radius);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        animation: zoomIn 0.3s ease;
+      }
+
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+      }
+
+      .lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background-color: var(--secondary-color);
+        color: var(--text-light);
+        padding: 3rem 5% 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-column h3 {
+        font-family: 'Exo 2', sans-serif;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+      }
+
+      .footer-column h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--primary-light);
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-column a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-column a:hover {
+        color: var(--primary-light);
+        padding-left: 5px;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .footer-bottom a {
+        color: var(--primary-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-bottom a:hover {
+        color: var(--accent);
+      }
+
+      /* ===== BOUTON SCROLL TO TOP ===== */
+      .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: var(--white);
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition);
+        z-index: 1000;
+      }
+
+      .scroll-to-top:hover {
+        transform: translateY(-3px) scale(1.1);
+        box-shadow: 0 8px 25px rgba(44, 90, 160, 0.4);
+      }
+
+      /* ===== LOADING SPINNER ===== */
+      .loading-spinner {
+        display: none;
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* ===== MEDIA QUERIES ===== */
+      @media (max-width: 768px) {
+        nav ul {
+          position: fixed;
+          top: 80px;
+          right: -100%;
+          width: 80%;
+          height: calc(100vh - 80px);
+          background-color: var(--secondary-color);
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 2rem;
+          transition: var(--transition);
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav ul.active {
+          right: 0;
+        }
+        
+        .burger {
+          display: flex;
+        }
+        
+        .hero {
+          padding: 120px 5% 60px;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .reservation-options {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .form-row {
+          flex-direction: column;
+          gap: 25px;
+        }
+
+        .date-time-picker {
+          flex-direction: column;
+        }
+
+        .image-container img {
+          width: 90%;
+          margin-bottom: 20px;
+        }
+
+        .location-info {
+          flex-direction: column;
+          gap: 30px;
+        }
+
+        .location-details {
+          min-width: auto;
+        }
+
+        .occasion-type-options,
+        .table-type-options {
+          grid-template-columns: 1fr;
+        }
+
+        .form-container {
+          padding: 30px 20px;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .reservation-content {
+          padding: 20px;
+        }
+
+        .button {
+          padding: 12px 24px;
+          font-size: 1rem;
+        }
+
+        .scroll-to-top {
+          bottom: 20px;
+          right: 20px;
+          width: 50px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header id="header">
+      <nav>
+        <img src="https://i.goopics.net/brvl3d.png" alt="Logo Pearl's" class="logo" />
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="menu.html">Notre Carte</a></li>
+          <li><a href="reservation.html" class="active">Réservation</a></li>
+          <li><a href="equipe.html">Notre Équipe</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div
+          class="burger"
+          id="burger"
+          aria-label="Menu navigation"
+          role="button"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Réservez votre table</h1>
+        <p>
+          Chez Pearl's, nous vous proposons une expérience culinaire exceptionnelle dans un cadre raffiné. 
+          Réservez dès maintenant votre table pour vivre un moment inoubliable.
+        </p>
+      </div>
+    </section>
+
+    <main>
+      <!-- Section Options de Réservation -->
+      <section>
+        <div class="reservation-options">
+          <div class="reservation-card" data-form="standard-reservation">
+            <div class="reservation-icon">
+              <i class="fas fa-utensils"></i>
+            </div>
+            <div class="reservation-content">
+              <h3>Réservation Standard</h3>
+              <p>Pour un dîner en amoureux, un repas en famille ou entre amis. Réservez votre table pour une expérience gastronomique classique.</p>
+              <div class="button">Réserver une table</div>
+            </div>
+          </div>
+
+          <div class="reservation-card" data-form="special-occasion">
+            <div class="reservation-icon">
+              <i class="fas fa-glass-cheers"></i>
+            </div>
+            <div class="reservation-content">
+              <h3>Événement Spécial</h3>
+              <p>Anniversaire, fête, mariage ou célébration. Nous créons des moments mémorables adaptés à vos occasions spéciales.</p>
+              <div class="button">Organiser un événement</div>
+            </div>
+          </div>
+
+          <div class="reservation-card" data-form="private-room">
+            <div class="reservation-icon">
+              <i class="fas fa-crown"></i>
+            </div>
+            <div class="reservation-content">
+              <h3>Salle Privée</h3>
+              <p>Pour des réunions d'affaires, des célébrations intimes ou des dîners exclusifs dans notre salle privée VIP.</p>
+              <div class="button">Réserver la salle privée</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Réservation Standard -->
+      <section id="standard-reservation-section">
+        <h2 class="section-title">Réservation Standard</h2>
+        <p class="intro">
+          Réservez votre table pour une expérience gastronomique inoubliable au Pearl's. 
+          Notre équipe s'engage à vous offrir un service exceptionnel dans un cadre raffiné.
+        </p>
+
+        <div class="form-container" id="standard-reservation-container">
+          <form id="standard-reservation-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="reservation-name" class="required">Nom complet</label>
+                <input type="text" id="reservation-name" name="name" required placeholder="Votre nom complet" />
+              </div>
+              <div class="form-group">
+                <label for="reservation-phone" class="required">Téléphone</label>
+                <input type="tel" id="reservation-phone" name="phone" required placeholder="Votre numéro de téléphone" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="reservation-email" class="required">Adresse email</label>
+                <input type="email" id="reservation-email" name="email" required placeholder="Votre adresse email" />
+              </div>
+              <div class="form-group">
+                <label for="reservation-guests" class="required">Nombre de convives</label>
+                <select id="reservation-guests" name="guests" required>
+                  <option value="">Sélectionnez...</option>
+                  <option value="1">1 personne</option>
+                  <option value="2">2 personnes</option>
+                  <option value="3">3 personnes</option>
+                  <option value="4">4 personnes</option>
+                  <option value="5">5 personnes</option>
+                  <option value="6">6 personnes</option>
+                  <option value="7">7 personnes</option>
+                  <option value="8">8 personnes</option>
+                  <option value="9">9 personnes ou plus</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row date-time-picker">
+              <div class="form-group">
+                <label for="reservation-date" class="required">Date souhaitée</label>
+                <input type="date" id="reservation-date" name="reservation-date" min="" required />
+              </div>
+              <div class="form-group">
+                <label for="reservation-time" class="required">Horaire préféré</label>
+                <select id="reservation-time" name="reservation-time" required>
+                  <option value="">Choisir un horaire</option>
+                  <option value="12:00">12:00</option>
+                  <option value="12:30">12:30</option>
+                  <option value="13:00">13:00</option>
+                  <option value="13:30">13:30</option>
+                  <option value="19:00">19:00</option>
+                  <option value="19:30">19:30</option>
+                  <option value="20:00">20:00</option>
+                  <option value="20:30">20:30</option>
+                  <option value="21:00">21:00</option>
+                  <option value="21:30">21:30</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="reservation-notes">Demandes spéciales (optionnel)</label>
+              <textarea id="reservation-notes" name="notes" rows="3" placeholder="Allergies alimentaires, anniversaire, préférences particulières..."></textarea>
+            </div>
+
+            <button type="submit" id="reservation-submit-btn" class="button">
+              <span id="reservation-btn-text">Confirmer la réservation</span>
+              <div class="loading-spinner" id="reservation-spinner"></div>
+            </button>
+            <div class="confirmation-message" id="reservation-confirmation">
+              <h3>✅ Réservation confirmée !</h3>
+              <p>Votre réservation a été enregistrée avec succès. Vous recevrez un email de confirmation dans les prochaines minutes.</p>
+              <p><strong>Nous avons hâte de vous accueillir au Pearl's !</strong></p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section Événement Spécial -->
+      <section id="special-occasion-section">
+        <h2 class="section-title">Événement Spécial</h2>
+        <p class="intro">
+          Célébrez vos moments importants au Pearl's. Que ce soit pour un anniversaire, 
+          une fête de famille ou toute autre occasion spéciale, nous créons des souvenirs inoubliables.
+        </p>
+
+        <div class="special-occasion-info">
+          <h4><i class="fas fa-gift"></i> Service Événementiel</h4>
+          <p>Notre équipe dédiée aux événements vous accompagne dans l'organisation de votre célébration. Menu personnalisé, décoration et service sur mesure.</p>
+        </div>
+
+        <div class="form-container" id="special-occasion-container">
+          <form id="special-occasion-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="occasion-name" class="required">Nom complet</label>
+                <input type="text" id="occasion-name" name="name" required placeholder="Votre nom complet" />
+              </div>
+              <div class="form-group">
+                <label for="occasion-phone" class="required">Téléphone</label>
+                <input type="tel" id="occasion-phone" name="phone" required placeholder="Votre numéro de téléphone" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="occasion-email" class="required">Adresse email</label>
+                <input type="email" id="occasion-email" name="email" required placeholder="Votre adresse email" />
+              </div>
+              <div class="form-group">
+                <label for="occasion-guests" class="required">Nombre estimé de convives</label>
+                <select id="occasion-guests" name="guests" required>
+                  <option value="">Sélectionnez...</option>
+                  <option value="10-20">10-20 personnes</option>
+                  <option value="20-30">20-30 personnes</option>
+                  <option value="30-50">30-50 personnes</option>
+                  <option value="50+">Plus de 50 personnes</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="required">Type d'événement</label>
+              <div class="occasion-type-options">
+                <label class="occasion-type-option">
+                  <input type="radio" name="occasion-type" value="anniversaire" required>
+                  <span>Anniversaire</span>
+                </label>
+                <label class="occasion-type-option">
+                  <input type="radio" name="occasion-type" value="mariage">
+                  <span>Mariage</span>
+                </label>
+                <label class="occasion-type-option">
+                  <input type="radio" name="occasion-type" value="entreprise">
+                  <span>Événement d'entreprise</span>
+                </label>
+                <label class="occasion-type-option">
+                  <input type="radio" name="occasion-type" value="famille">
+                  <span>Réunion de famille</span>
+                </label>
+                <label class="occasion-type-option">
+                  <input type="radio" name="occasion-type" value="autre">
+                  <span>Autre célébration</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row date-time-picker">
+              <div class="form-group">
+                <label for="occasion-date" class="required">Date souhaitée</label>
+                <input type="date" id="occasion-date" name="occasion-date" min="" required />
+              </div>
+              <div class="form-group">
+                <label for="occasion-budget">Budget estimé (optionnel)</label>
+                <select id="occasion-budget" name="budget">
+                  <option value="">Sélectionnez...</option>
+                  <option value="500-1000">$500 - $1,000</option>
+                  <option value="1000-2000">$1,000 - $2,000</option>
+                  <option value="2000-5000">$2,000 - $5,000</option>
+                  <option value="5000+">Plus de $5,000</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="occasion-description" class="required">Description de votre événement</label>
+              <textarea id="occasion-description" name="description" rows="5" required placeholder="Décrivez votre événement, vos attentes, préférences culinaires..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="occasion-requirements">Demandes particulières</label>
+              <textarea id="occasion-requirements" name="requirements" rows="3" placeholder="Décoration spécifique, menu personnalisé, animations..."></textarea>
+            </div>
+
+            <button type="submit" class="button">
+              <span id="occasion-btn-text">Demander un devis</span>
+              <div class="loading-spinner" id="occasion-spinner"></div>
+            </button>
+            <div class="confirmation-message" id="occasion-confirmation">
+              <h3>✅ Demande envoyée !</h3>
+              <p>Votre demande d'événement spécial a été transmise à notre équipe événementielle. Nous vous contacterons dans les 24 heures pour discuter des détails.</p>
+              <p><strong>Merci de nous faire confiance pour célébrer votre moment spécial !</strong></p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section Salle Privée -->
+      <section id="private-room-section">
+        <h2 class="section-title">Salle Privée VIP</h2>
+        <p class="intro">
+          Notre salle privée exclusive offre intimité et élégance pour vos réunions d'affaires, 
+          dîners importants ou célébrations intimes. Capacité jusqu'à 20 personnes.
+        </p>
+
+        <div class="form-container" id="private-room-container">
+          <form id="private-room-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="private-name" class="required">Nom complet</label>
+                <input type="text" id="private-name" name="name" required placeholder="Votre nom complet" />
+              </div>
+              <div class="form-group">
+                <label for="private-company">Entreprise (optionnel)</label>
+                <input type="text" id="private-company" name="company" placeholder="Nom de votre entreprise" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="private-phone" class="required">Téléphone</label>
+                <input type="tel" id="private-phone" name="phone" required placeholder="Votre numéro de téléphone" />
+              </div>
+              <div class="form-group">
+                <label for="private-email" class="required">Adresse email</label>
+                <input type="email" id="private-email" name="email" required placeholder="Votre email professionnel" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="required">Type d'événement</label>
+              <div class="table-type-options">
+                <label class="table-type-option">
+                  <input type="radio" name="private-type" value="affaires" required>
+                  <span>Réunion d'affaires</span>
+                </label>
+                <label class="table-type-option">
+                  <input type="radio" name="private-type" value="celebration">
+                  <span>Célébration privée</span>
+                </label>
+                <label class="table-type-option">
+                  <input type="radio" name="private-type" value="degustation">
+                  <span>Dîner de dégustation</span>
+                </label>
+                <label class="table-type-option">
+                  <input type="radio" name="private-type" value="autre">
+                  <span>Autre événement</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="private-guests" class="required">Nombre de convives</label>
+                <select id="private-guests" name="guests" required>
+                  <option value="">Sélectionnez...</option>
+                  <option value="2-5">2-5 personnes</option>
+                  <option value="6-10">6-10 personnes</option>
+                  <option value="11-15">11-15 personnes</option>
+                  <option value="16-20">16-20 personnes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="private-duration" class="required">Durée estimée</label>
+                <select id="private-duration" name="duration" required>
+                  <option value="">Sélectionnez...</option>
+                  <option value="2">2 heures</option>
+                  <option value="3">3 heures</option>
+                  <option value="4">4 heures</option>
+                  <option value="5+">Plus de 4 heures</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row date-time-picker">
+              <div class="form-group">
+                <label for="private-date" class="required">Date souhaitée</label>
+                <input type="date" id="private-date" name="private-date" min="" required />
+              </div>
+              <div class="form-group">
+                <label for="private-time" class="required">Horaire de début</label>
+                <select id="private-time" name="private-time" required>
+                  <option value="">Choisir un horaire</option>
+                  <option value="12:00">12:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="18:30">18:30</option>
+                  <option value="19:00">19:00</option>
+                  <option value="19:30">19:30</option>
+                  <option value="20:00">20:00</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="private-requirements">Exigences particulières</label>
+              <textarea id="private-requirements" name="requirements" rows="4" placeholder="Équipement audiovisuel, menu dégustation, service de sommelier..."></textarea>
+            </div>
+
+            <button type="submit" class="button">
+              <span id="private-btn-text">Réserver la salle privée</span>
+              <div class="loading-spinner" id="private-spinner"></div>
+            </button>
+            <div class="confirmation-message" id="private-confirmation">
+              <h3>✅ Demande de salle privée envoyée !</h3>
+              <p>Votre demande a été transmise à notre responsable des événements. Nous vous contacterons sous 48 heures pour confirmer la disponibilité et discuter des détails.</p>
+              <p><strong>Nous sommes ravis de vous accueillir dans notre espace exclusif !</strong></p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section En Ville -->
+      <section id="location">
+        <h2 class="section-title">Notre restaurant</h2>
+        <div class="location-info">
+          <div class="location-details">
+            <h3>Pearl's - Restaurant Gastronomique</h3>
+            <p><strong><i class="fas fa-map-marker-alt"></i> Adresse :</strong> Route 68, Los Santos</p>
+            <p><strong><i class="fas fa-phone"></i> Téléphone :</strong> +385 123 456 789</p>
+            <p><strong><i class="fas fa-envelope"></i> Email :</strong> contact@pearls-restaurant.com</p>
+            <p><strong>Horaires d'ouverture :</strong></p>
+            <p>Lundi - Vendredi : 12h-14h30 / 19h-22h30</p>
+            <p>Samedi : 19h-23h</p>
+            <p>Dimanche : Fermé</p>
+            
+            <div style="margin-top: 25px;">
+              <a href="tel:+385123456789" class="button"><i class="fas fa-phone"></i> Nous appeler</a>
+              <a href="mailto:contact@pearls-restaurant.com" class="button button-outline" style="margin-left: 12px;"><i class="fas fa-envelope"></i> Envoyer un email</a>
+            </div>
+          </div>
+
+          <div class="location-details">
+            <h3>Notre établissement</h3>
+            <div class="image-container">
+              <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Intérieur du restaurant Pearl's" />
+              <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Salle à manger Pearl's" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" aria-label="Fermer">&times;</button>
+      <img src="" alt="Agrandissement image" />
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Remonter en haut">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Pearl's</h3>
+          <p>Votre restaurant gastronomique de référence à Los Santos.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="menu.html">Notre Carte</a></li>
+            <li><a href="reservation.html">Réservation</a></li>
+            <li><a href="equipe.html">Notre Équipe</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Horaires</h3>
+          <ul>
+            <li>Lundi - Vendredi: 12h-14h30 / 19h-22h30</li>
+            <li>Samedi: 19h-23h</li>
+            <li>Dimanche: Fermé</li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> Route 68, Los Santos</li>
+            <li><i class="fas fa-phone"></i> +385 123 456 789</li>
+            <li><i class="fas fa-envelope"></i> contact@pearls-restaurant.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy;
+          <a href="mentions-legales.html"
+            >2025 Restaurant Pearl's. Tous droits réservés.</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Menu burger
+      const burger = document.getElementById("burger");
+      const menu = document.querySelector("nav ul");
+
+      burger.addEventListener("click", () => {
+        burger.classList.toggle("active");
+        menu.classList.toggle("active");
+      });
+
+      // Header scroll effect
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Animation des cartes de réservation
+        const reservationCards = document.querySelectorAll('.reservation-card');
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate');
+            }
+          });
+        }, observerOptions);
+
+        reservationCards.forEach(card => {
+          observer.observe(card);
+        });
+
+        // Lightbox pour images
+        const images = document.querySelectorAll(".image-container img");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = lightbox.querySelector("img");
+        const lightboxClose = lightbox.querySelector(".lightbox-close");
+
+        images.forEach((img) => {
+          img.addEventListener("click", () => {
+            lightbox.style.display = "flex";
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        const closeLightbox = () => {
+          lightbox.style.display = "none";
+          lightboxImg.src = "";
+          lightboxImg.alt = "";
+          document.body.style.overflow = 'auto';
+        };
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener("click", (e) => {
+          if (e.target === lightbox) {
+            closeLightbox();
+          }
+        });
+
+        // Fermer la lightbox avec la touche Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+            closeLightbox();
+          }
+        });
+
+        // Navigation entre les formulaires
+        const reservationCardsNav = document.querySelectorAll('.reservation-card[data-form]');
+        const formContainers = document.querySelectorAll('.form-container');
+        
+        reservationCardsNav.forEach(card => {
+          card.addEventListener('click', () => {
+            const formId = card.getAttribute('data-form');
+            
+            // Masquer tous les formulaires avec animation
+            formContainers.forEach(container => {
+              if (container.classList.contains('active')) {
+                container.style.animation = 'fadeOutDown 0.4s ease';
+                setTimeout(() => {
+                  container.classList.remove('active');
+                  container.style.animation = '';
+                }, 400);
+              }
+            });
+            
+            // Afficher le formulaire sélectionné
+            const targetForm = document.getElementById(`${formId}-container`);
+            if (targetForm) {
+              setTimeout(() => {
+                targetForm.classList.add('active');
+                targetForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 450);
+            }
+          });
+        });
+
+        // Gestion des sélections visuelles
+        const setupOptionSelection = (selector) => {
+          document.querySelectorAll(selector).forEach(option => {
+            const input = option.querySelector('input');
+            option.addEventListener('click', function() {
+              if (input.type === 'radio') {
+                document.querySelectorAll(selector).forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                input.checked = true;
+              }
+            });
+          });
+        };
+
+        setupOptionSelection('.occasion-type-option');
+        setupOptionSelection('.table-type-option');
+
+        // Scroll to Top
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+          if (window.pageYOffset > 300) {
+            scrollToTopBtn.style.display = 'flex';
+          } else {
+            scrollToTopBtn.style.display = 'none';
+          }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+
+        // Initialisation des dates
+        const today = new Date();
+        const minDate = today.toISOString().split('T')[0];
+        
+        // Date minimum pour les réservations (aujourd'hui)
+        const dateInputs = document.querySelectorAll('input[type="date"]');
+        dateInputs.forEach(input => {
+          input.min = minDate;
+        });
+
+        // Fonction utilitaire pour gérer l'affichage du loading
+        const setLoadingState = (button, spinner, textElement, isLoading) => {
+          if (isLoading) {
+            button.disabled = true;
+            spinner.style.display = 'block';
+            textElement.style.opacity = '0.5';
+          } else {
+            button.disabled = false;
+            spinner.style.display = 'none';
+            textElement.style.opacity = '1';
+          }
+        };
+
+        // Gestion de la soumission des formulaires
+        const setupFormSubmission = (formId, confirmationId, spinnerId, btnTextId) => {
+          const form = document.getElementById(formId);
+          const confirmation = document.getElementById(confirmationId);
+          const spinner = document.getElementById(spinnerId);
+          const btnText = document.getElementById(btnTextId);
+          const submitBtn = form?.querySelector('button[type="submit"]');
+
+          if (!form || !submitBtn) return;
+
+          form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            setLoadingState(submitBtn, spinner, btnText, true);
+
+            // Simuler l'envoi (remplacez par votre logique réelle)
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            form.style.display = "none";
+            confirmation.style.display = "block";
+            
+            // Réinitialiser après 5 secondes
+            setTimeout(() => {
+              form.reset();
+              form.style.display = "block";
+              confirmation.style.display = "none";
+            }, 5000);
+          });
+        };
+
+        // Configurer les formulaires de réservation
+        setupFormSubmission('standard-reservation-form', 'reservation-confirmation', 'reservation-spinner', 'reservation-btn-text');
+        setupFormSubmission('special-occasion-form', 'occasion-confirmation', 'occasion-spinner', 'occasion-btn-text');
+        setupFormSubmission('private-room-form', 'private-confirmation', 'private-spinner', 'private-btn-text');
+      });
+    </script>
+  </body>
+</html>
