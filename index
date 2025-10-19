@@ -1,1 +1,792 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pearl's - Restaurant gastronomique</title>
 
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Exo+2:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles améliorés -->
+    <style>
+      /* ===== VARIABLES CSS ===== */
+      :root {
+        --primary-color: #2c5aa0;
+        --primary-dark: #1e3d72;
+        --primary-light: #4a7bc8;
+        --secondary-color: #1a1a2e;
+        --secondary-light: #2d3047;
+        --secondary-dark: #0f1123;
+        --accent-color: #3498db;
+        --text-light: #f5f5f5;
+        --text-dark: #333344;
+        --background-light: #f8f9fa;
+        --background-dark: #121826;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --transition: all 0.3s ease;
+        --border-radius: 8px;
+      }
+
+      /* ===== RESET ET STYLES DE BASE ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        color: var(--text-dark);
+        background-color: var(--background-light);
+        overflow-x: hidden;
+      }
+
+      /* ===== HEADER ET NAVIGATION ===== */
+      header {
+        background-color: var(--secondary-color);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: var(--transition);
+      }
+
+      header.scrolled {
+        background-color: rgba(26, 26, 46, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        height: 60px;
+        width: auto;
+        transition: var(--transition);
+        /* Suppression du filtre qui causait le problème */
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      nav a:hover {
+        color: var(--primary-light);
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: var(--primary-light);
+        transition: var(--transition);
+        transform: translateX(-50%);
+      }
+
+      nav a:hover::after {
+        width: 80%;
+      }
+
+      /* ===== BOUTON BURGER (MOBILE) ===== */
+      .burger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+      }
+
+      .burger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-light);
+        margin: 3px 0;
+        transition: var(--transition);
+        border-radius: 2px;
+      }
+
+      .burger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .burger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .burger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      /* ===== SECTION HERO ===== */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(26, 26, 46, 0.9)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hero-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-text {
+        flex: 1;
+        color: var(--text-light);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .hero-text.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .hero-text h1 {
+        font-family: 'Exo 2', sans-serif;
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        position: relative;
+        padding-bottom: 1rem;
+      }
+
+      .hero-text h1::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        border-radius: 2px;
+      }
+
+      .hero-text p {
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 600px;
+      }
+
+      .hero-image {
+        flex: 1;
+        opacity: 0;
+        transform: translateX(30px);
+        transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .hero-image.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .hero-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .hero-image img:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      /* ===== BOUTON ===== */
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: white;
+        padding: 0.8rem 2rem;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        margin-top: 1rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition);
+      }
+
+      .button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+      }
+
+      .button:hover::before {
+        left: 100%;
+      }
+
+      .button:active {
+        transform: translateY(-1px);
+      }
+
+      /* ===== SECTION SERVICES ===== */
+      .services {
+        padding: 5rem 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title h2 {
+        font-family: 'Exo 2', sans-serif;
+        font-size: 2.5rem;
+        color: var(--secondary-color);
+        position: relative;
+        display: inline-block;
+        padding-bottom: 1rem;
+      }
+
+      .section-title h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        border-radius: 2px;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .service-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        text-align: center;
+        border-top: 4px solid var(--primary-color);
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .service-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .service-card h3 {
+        font-family: 'Exo 2', sans-serif;
+        margin-bottom: 1rem;
+        color: var(--secondary-color);
+      }
+
+      /* ===== SECTION MENU ===== */
+      .menu {
+        padding: 5rem 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+        background-color: #f0f4f8;
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .menu-card {
+        background: white;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+      }
+
+      .menu-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .menu-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .menu-content {
+        padding: 1.5rem;
+      }
+
+      .menu-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .menu-title h3 {
+        font-family: 'Exo 2', sans-serif;
+        color: var(--secondary-color);
+      }
+
+      .menu-price {
+        color: var(--primary-color);
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background-color: var(--secondary-color);
+        color: var(--text-light);
+        padding: 3rem 5% 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-column h3 {
+        font-family: 'Exo 2', sans-serif;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+      }
+
+      .footer-column h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--primary-light);
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-column a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-column a:hover {
+        color: var(--primary-light);
+        padding-left: 5px;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-bottom p {
+        margin: 0;
+      }
+
+      .footer-bottom a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-bottom a:hover {
+        color: var(--primary-light);
+      }
+
+      /* ===== MEDIA QUERIES ===== */
+      @media (max-width: 992px) {
+        .hero-content {
+          flex-direction: column;
+          text-align: center;
+          gap: 2rem;
+        }
+        
+        .hero-text h1::after {
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        
+        .hero-image {
+          order: -1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          position: fixed;
+          top: 80px;
+          right: -100%;
+          width: 80%;
+          height: calc(100vh - 80px);
+          background-color: var(--secondary-color);
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 2rem;
+          transition: var(--transition);
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav ul.active {
+          right: 0;
+        }
+        
+        .burger {
+          display: flex;
+        }
+        
+        .hero-text h1 {
+          font-size: 2.5rem;
+        }
+        
+        .section-title h2 {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        nav {
+          padding: 1rem;
+        }
+        
+        .hero-content {
+          padding: 1rem;
+        }
+        
+        .hero-text h1 {
+          font-size: 2rem;
+        }
+        
+        .hero-text p {
+          font-size: 1rem;
+        }
+        
+        .button {
+          width: 100%;
+          text-align: center;
+          justify-content: center;
+        }
+        
+        .services, .menu {
+          padding: 3rem 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header id="header">
+      <nav>
+        <img src="https://i.goopics.net/brvl3d.png" alt="Logo Pearl's" class="logo" />
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="menu.html">Notre Carte</a></li>
+          <li><a href="reservation.html">Réservation</a></li>
+          <li><a href="equipe.html">Notre Équipe</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div
+          class="burger"
+          id="burger"
+          aria-label="Menu navigation"
+          role="button"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>
+            Bienvenue chez Pearl's,<br />
+            Votre restaurant gastronomique à Los Santos
+          </h1>
+          <p>
+            Situé sur la Route 68 près du célèbre Dinner Rex, Pearl's vous propose une expérience culinaire exceptionnelle dans un cadre raffiné.
+          </p>
+          <p>
+            Notre chef étoilé revisite les classiques avec créativité, utilisant des produits frais et locaux pour une expérience gustative unique.
+          </p>
+          <p>
+            Pearl's – L'endroit où chaque repas devient un souvenir inoubliable !
+          </p>
+          <a href="reservation.html" class="button">
+            <i class="fas fa-calendar-alt"></i> Réserver une table
+          </a>
+        </div>
+        <div class="hero-image">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Restaurant Pearl's" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section transformée en Spécialités -->
+    <section class="services">
+      <div class="section-title">
+        <h2>Nos Spécialités</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <h3>Cuisine Gastronomique</h3>
+          <p>Une expérience culinaire raffinée avec des plats créatifs préparés par notre chef étoilé.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-wine-glass-alt"></i>
+          </div>
+          <h3>Cave à Vins</h3>
+          <p>Une sélection exceptionnelle de vins soigneusement choisis pour accompagner vos repas.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-birthday-cake"></i>
+          </div>
+          <h3>Événements Privés</h3>
+          <p>Organisation d'événements sur mesure pour vos occasions spéciales dans notre salle privée.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Menu -->
+    <section class="menu">
+      <div class="section-title">
+        <h2>Notre Carte</h2>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Entrée du chef" class="menu-image">
+          <div class="menu-content">
+            <div class="menu-title">
+              <h3>Assiette du Chef</h3>
+              <span class="menu-price">$26</span>
+            </div>
+            <p>Une sélection de nos meilleures entrées, préparées avec des produits de saison.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Filet de boeuf" class="menu-image">
+          <div class="menu-content">
+            <div class="menu-title">
+              <h3>Filet de Boeuf Wagyu</h3>
+              <span class="menu-price">$45</span>
+            </div>
+            <p>Filet de boeuf wagyu, purée de truffe et légumes de saison rôtis.</p>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Dessert" class="menu-image">
+          <div class="menu-content">
+            <div class="menu-title">
+              <h3>Sphère Chocolat-Passion</h3>
+              <span class="menu-price">$18</span>
+            </div>
+            <p>Sphère de chocolat noir garnie de coulis passion et glace vanille de Madagascar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Pearl's</h3>
+          <p>Votre restaurant gastronomique de référence à Los Santos.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="menu.html">Notre Carte</a></li>
+            <li><a href="reservation.html">Réservation</a></li>
+            <li><a href="equipe.html">Notre Équipe</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Horaires</h3>
+          <ul>
+            <li>Lundi - Vendredi: 12h-14h30 / 19h-22h30</li>
+            <li>Samedi: 19h-23h</li>
+            <li>Dimanche: Fermé</li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> Route 68, Los Santos</li>
+            <li><i class="fas fa-phone"></i> +385 123 456 789</li>
+            <li><i class="fas fa-envelope"></i> contact@pearls-restaurant.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy;
+          <a href="mentions-legales.html"
+            >2025 Restaurant Pearl's. Tous droits réservés.</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      // Menu burger
+      const burger = document.getElementById("burger");
+      const menu = document.querySelector("nav ul");
+
+      burger.addEventListener("click", () => {
+        burger.classList.toggle("active");
+        menu.classList.toggle("active");
+      });
+
+      // Animation au chargement
+      window.addEventListener("load", () => {
+        document.querySelector(".hero-text").classList.add("show");
+        document.querySelector(".hero-image").classList.add("show");
+      });
+
+      // Header scroll effect
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // Animation des cartes services
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Observer les cartes de services
+      document.querySelectorAll('.service-card, .menu-card').forEach(card => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.observe(card);
+      });
+    </script>
+  </body>
+</html>
