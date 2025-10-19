@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notre Carte - Pearl's</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Racing+Sans+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      :root {
+        --primary: #2c5aa0;
+        --primary-dark: #1e3d72;
+        --primary-light: #4a7bc8;
+        --accent: #3498db;
+        --black: #000000;
+        --white: #ffffff;
+        --light-gray: #f5f5f5;
+        --dark-gray: #333333;
+        --medium-gray: #666666;
+        --background-dark: #121826;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --transition: all 0.3s ease;
+        --border-radius: 8px;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        color: var(--black);
+        background-color: var(--white);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      header {
+        background-color: var(--background-dark);
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+      }
+
+      header.scrolled {
+        background-color: rgba(18, 24, 38, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .logo {
+        height: 50px;
+        transition: var(--transition);
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav ul li a {
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+      }
+
+      nav ul li a:hover {
+        color: var(--primary-light);
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      nav ul li a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: var(--primary-light);
+        transition: var(--transition);
+        transform: translateX(-50%);
+      }
+
+      nav ul li a:hover::after {
+        width: 80%;
+      }
+
+      .burger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+      }
+
+      .burger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--white);
+        margin: 3px 0;
+        transition: var(--transition);
+        border-radius: 2px;
+      }
+
+      .burger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .burger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .burger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(rgba(18, 24, 38, 0.85), rgba(18, 24, 38, 0.9)), url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+        background-size: cover;
+        background-position: center;
+        color: var(--white);
+        padding: 150px 5% 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero h1 {
+        font-family: 'Racing Sans One', cursive;
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .hero h1::after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .hero p {
+        max-width: 800px;
+        margin: 40px auto 0;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8;
+      }
+
+      main {
+        padding: 80px 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        text-align: center;
+        margin: 60px 0 30px;
+        font-size: 2.5rem;
+        position: relative;
+        font-family: 'Racing Sans One', cursive;
+        color: var(--background-dark);
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .menu-category {
+        margin-bottom: 60px;
+      }
+
+      .category-title {
+        font-family: 'Racing Sans One', cursive;
+        font-size: 2rem;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--primary);
+        color: var(--background-dark);
+        position: relative;
+      }
+
+      .category-title::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background: var(--primary-light);
+      }
+
+      .menu-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .menu-item {
+        background: var(--white);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .menu-item.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .menu-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      }
+
+      .menu-item:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .menu-item-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+
+      .menu-item:hover .menu-item-image {
+        transform: scale(1.05);
+      }
+
+      .menu-item-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .menu-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+
+      .menu-item-title {
+        font-size: 1.5rem;
+        color: var(--background-dark);
+        font-family: 'Racing Sans One', cursive;
+        margin-right: 15px;
+      }
+
+      .menu-item-price {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary);
+        white-space: nowrap;
+      }
+
+      .menu-item-description {
+        color: var(--medium-gray);
+        margin-bottom: 20px;
+        flex-grow: 1;
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+
+      .menu-item-ingredients {
+        list-style: none;
+        margin: 15px 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .menu-item-ingredients li {
+        background: rgba(44, 90, 160, 0.1);
+        color: var(--primary-dark);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        transition: var(--transition);
+      }
+
+      .menu-item-ingredients li:hover {
+        background: rgba(44, 90, 160, 0.2);
+      }
+
+      .menu-item-tags {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .tag {
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .tag-vegetarian {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      .tag-spicy {
+        background: #ffebee;
+        color: #c62828;
+      }
+
+      .tag-gluten-free {
+        background: #fff3e0;
+        color: #ef6c00;
+      }
+
+      .tag-chef {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        color: var(--white);
+        padding: 12px 25px;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+        font-size: 1rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition);
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(44, 90, 160, 0.4);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        box-shadow: none;
+      }
+
+      .btn-outline:hover {
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        color: var(--white);
+      }
+
+      .wine-pairing {
+        background: rgba(44, 90, 160, 0.05);
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 0;
+        border-left: 4px solid var(--primary);
+      }
+
+      .wine-pairing h4 {
+        color: var(--primary-dark);
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+      }
+
+      .wine-pairing p {
+        color: var(--medium-gray);
+        font-size: 0.95rem;
+        margin: 0;
+      }
+
+      .gallery-container {
+        margin-bottom: 60px;
+        position: relative;
+      }
+
+      .slider {
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding: 20px 10px;
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+      }
+
+      .slider::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .slider::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+      }
+
+      .slider::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        border-radius: 10px;
+      }
+
+      .slider-item {
+        flex: 0 0 auto;
+        width: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .slider-item:hover {
+        transform: scale(1.05);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .slider-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s;
+      }
+
+      .slider-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .slider-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        color: var(--white);
+        padding: 12px;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      .cta-section {
+        background: linear-gradient(rgba(18, 24, 38, 0.8), rgba(18, 24, 38, 0.9)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 60px 30px;
+        text-align: center;
+        color: var(--white);
+        border-radius: var(--border-radius);
+        margin: 50px 0;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      }
+
+      .cta-section h2 {
+        color: var(--white);
+        margin-bottom: 20px;
+        font-size: 2.2rem;
+        font-family: 'Racing Sans One', cursive;
+      }
+
+      .cta-section p {
+        max-width: 700px;
+        margin: 0 auto 30px;
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 2000;
+      }
+
+      .lightbox img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 8px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: var(--white);
+        font-size: 2.5rem;
+        cursor: pointer;
+        background: none;
+        border: none;
+        transition: var(--transition);
+      }
+
+      .lightbox-close:hover {
+        color: var(--primary-light);
+      }
+
+      footer {
+        background-color: var(--background-dark);
+        color: var(--white);
+        padding: 3rem 5% 1.5rem;
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-column h3 {
+        font-family: 'Racing Sans One', cursive;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+      }
+
+      .footer-column h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--primary-light);
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-column a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-column a:hover {
+        color: var(--primary-light);
+        padding-left: 5px;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .footer-bottom a {
+        color: var(--primary-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-bottom a:hover {
+        color: var(--accent);
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          position: fixed;
+          top: 80px;
+          right: -100%;
+          width: 80%;
+          height: calc(100vh - 80px);
+          background-color: var(--background-dark);
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: 2rem;
+          transition: var(--transition);
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        nav ul.active {
+          right: 0;
+        }
+        
+        nav ul li {
+          margin: 15px 0;
+        }
+
+        .burger {
+          display: flex;
+        }
+
+        .hero {
+          padding: 120px 5% 60px;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .menu-container {
+          grid-template-columns: 1fr;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .cta-section {
+          padding: 40px 20px;
+        }
+
+        .cta-section h2 {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .menu-item-content {
+          padding: 20px;
+        }
+
+        .cta-section h2 {
+          font-size: 1.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header id="header">
+      <nav>
+        <img src="https://i.goopics.net/brvl3d.png" alt="Logo Pearl's" class="logo" />
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="menu.html" class="active">Notre Carte</a></li>
+          <li><a href="reservation.html">Réservation</a></li>
+          <li><a href="equipe.html">Notre Équipe</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div
+          class="burger"
+          id="burger"
+          aria-label="Menu navigation"
+          role="button"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Notre Carte</h1>
+        <p>
+          Découvrez notre sélection de plats raffinés, créés avec passion par notre chef étoilé. 
+          Chaque plat est préparé avec des ingrédients frais et locaux pour une expérience culinaire exceptionnelle.
+        </p>
+      </div>
+    </section>
+
+    <main>
+      <!-- Entrées -->
+      <div class="menu-category">
+        <h2 class="category-title">Entrées</h2>
+        <div class="menu-container">
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Assiette du Chef" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Assiette du Chef</h3>
+                <div class="menu-item-price">$26</div>
+              </div>
+              <p class="menu-item-description">Une sélection de nos meilleures entrées, préparées avec des produits de saison et des saveurs méditerranéennes.</p>
+              <ul class="menu-item-ingredients">
+                <li>Tartare de saumon</li>
+                <li>Foie gras maison</li>
+                <li>Carpaccio de bœuf</li>
+                <li>Salade de homard</li>
+              </ul>
+              <div class="menu-item-tags">
+                <span class="tag tag-chef">Spécialité du Chef</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Soupe à l'oignon" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Soupe à l'oignon gratinée</h3>
+                <div class="menu-item-price">$18</div>
+              </div>
+              <p class="menu-item-description">Soupe traditionnelle française aux oignons caramélisés, gratinée au fromage comté et servie avec des croûtons.</p>
+              <ul class="menu-item-ingredients">
+                <li>Oignons caramélisés</li>
+                <li>Fromage comté</li>
+                <li>Pain de campagne</li>
+                <li>Bouillon de bœuf</li>
+              </ul>
+              <div class="menu-item-tags">
+                <span class="tag tag-vegetarian">Végétarien</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1606755962773-d324e9b9d3d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Salade César" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Salade César au poulet grillé</h3>
+                <div class="menu-item-price">$22</div>
+              </div>
+              <p class="menu-item-description">Laitue romaine croquante, poulet grillé, parmesan, croûtons et notre sauce césar maison.</p>
+              <ul class="menu-item-ingredients">
+                <li>Laitue romaine</li>
+                <li>Poulet grillé</li>
+                <li>Parmesan</li>
+                <li>Croûtons</li>
+                <li>Sauce césar</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plats Principaux -->
+      <div class="menu-category">
+        <h2 class="category-title">Plats Principaux</h2>
+        <div class="menu-container">
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Filet de Boeuf" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Filet de Boeuf Wagyu</h3>
+                <div class="menu-item-price">$45</div>
+              </div>
+              <p class="menu-item-description">Filet de boeuf wagyu, purée de truffe et légumes de saison rôtis. Servi avec une sauce au vin rouge.</p>
+              <ul class="menu-item-ingredients">
+                <li>Boeuf wagyu</li>
+                <li>Truffe noire</li>
+                <li>Légumes de saison</li>
+                <li>Sauce au vin rouge</li>
+              </ul>
+              <div class="wine-pairing">
+                <h4>Accord mets-vins</h4>
+                <p>Château Margaux 2015 - Bordeaux</p>
+              </div>
+              <div class="menu-item-tags">
+                <span class="tag tag-chef">Spécialité du Chef</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Risotto aux fruits de mer" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Risotto aux fruits de mer</h3>
+                <div class="menu-item-price">$32</div>
+              </div>
+              <p class="menu-item-description">Risotto crémeux au safran avec un assortiment de fruits de mer frais : crevettes, moules, calamars et pétoncles.</p>
+              <ul class="menu-item-ingredients">
+                <li>Riz arborio</li>
+                <li>Fruits de mer</li>
+                <li>Safran</li>
+                <li>Crème fraîche</li>
+                <li>Vin blanc</li>
+              </ul>
+              <div class="wine-pairing">
+                <h4>Accord mets-vins</h4>
+                <p>Sancerre 2020 - Loire</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Poulet rôti" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Poulet fermier rôti</h3>
+                <div class="menu-item-price">$28</div>
+              </div>
+              <p class="menu-item-description">Poulet fermier rôti à la broche, servi avec des pommes de terre rôties et des légumes glacés au miel.</p>
+              <ul class="menu-item-ingredients">
+                <li>Poulet fermier</li>
+                <li>Pommes de terre</li>
+                <li>Légumes de saison</li>
+                <li>Miel</li>
+                <li>Herbes de Provence</li>
+              </ul>
+              <div class="menu-item-tags">
+                <span class="tag tag-gluten-free">Sans gluten</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desserts -->
+      <div class="menu-category">
+        <h2 class="category-title">Desserts</h2>
+        <div class="menu-container">
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Sphère Chocolat" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Sphère Chocolat-Passion</h3>
+                <div class="menu-item-price">$18</div>
+              </div>
+              <p class="menu-item-description">Sphère de chocolat noir garnie de coulis passion et glace vanille de Madagascar. Une explosion de saveurs.</p>
+              <ul class="menu-item-ingredients">
+                <li>Chocolat noir 70%</li>
+                <li>Fruit de la passion</li>
+                <li>Glace vanille</li>
+                <li>Or éclaté</li>
+              </ul>
+              <div class="menu-item-tags">
+                <span class="tag tag-chef">Spécialité du Chef</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80" alt="Tarte Tatin" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Tarte Tatin aux pommes</h3>
+                <div class="menu-item-price">$16</div>
+              </div>
+              <p class="menu-item-description">Tarte renversée aux pommes caramélisées, servie tiède avec une boule de glace vanille.</p>
+              <ul class="menu-item-ingredients">
+                <li>Pommes golden</li>
+                <li>Sucre vanillé</li>
+                <li>Pâte feuilletée</li>
+                <li>Glace vanille</li>
+              </ul>
+              <div class="menu-item-tags">
+                <span class="tag tag-vegetarian">Végétarien</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Crème brûlée" class="menu-item-image">
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Crème brûlée à la vanille</h3>
+                <div class="menu-item-price">$14</div>
+              </div>
+              <p class="menu-item-description">Crème onctueuse à la vanille de Madagascar, recouverte d'une fine couche de sucre caramélisé.</p>
+              <ul class="menu-item-ingredients">
+                <li>Crème fraîche</li>
+                <li>Vanille de Madagascar</li>
+                <li>Jaunes d'œufs</li>
+                <li>Sucre cassonade</li>
+              </ul>
+              <div class="menu-item-tags">
+                <span class="tag tag-vegetarian">Végétarien</span>
+                <span class="tag tag-gluten-free">Sans gluten</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Nos Spécialités</h2>
+      <div class="gallery-container">
+        <div class="slider" id="slider">
+          <div class="slider-item">
+            <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Assiette du Chef" />
+            <div class="slider-caption">Assiette du Chef - Entrée signature</div>
+          </div>
+          <div class="slider-item">
+            <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Filet de Boeuf" />
+            <div class="slider-caption">Filet de Boeuf Wagyu - Plat principal</div>
+          </div>
+          <div class="slider-item">
+            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Dessert Chocolat" />
+            <div class="slider-caption">Sphère Chocolat-Passion - Dessert signature</div>
+          </div>
+          <div class="slider-item">
+            <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Risotto" />
+            <div class="slider-caption">Risotto aux fruits de mer - Spécialité marine</div>
+          </div>
+          <div class="slider-item">
+            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80" alt="Tarte Tatin" />
+            <div class="slider-caption">Tarte Tatin - Classique français revisité</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-section">
+        <h2>Prêt à vivre une expérience culinaire exceptionnelle ?</h2>
+        <p>Réservez votre table dès aujourd'hui et laissez-vous séduire par les saveurs uniques de Pearl's.</p>
+        <a href="reservation.html" class="btn btn-outline"><i class="fas fa-calendar-alt"></i> Réserver une table</a>
+      </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close">&times;</button>
+      <img src="" alt="Agrandissement image" />
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Pearl's</h3>
+          <p>Votre restaurant gastronomique de référence à Los Santos.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="menu.html">Notre Carte</a></li>
+            <li><a href="reservation.html">Réservation</a></li>
+            <li><a href="equipe.html">Notre Équipe</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Horaires</h3>
+          <ul>
+            <li>Lundi - Vendredi: 12h-14h30 / 19h-22h30</li>
+            <li>Samedi: 19h-23h</li>
+            <li>Dimanche: Fermé</li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> Route 68, Los Santos</li>
+            <li><i class="fas fa-phone"></i> +385 123 456 789</li>
+            <li><i class="fas fa-envelope"></i> contact@pearls-restaurant.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy;
+          <a href="mentions-legales.html"
+            >2025 Restaurant Pearl's. Tous droits réservés.</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Burger menu
+      const burger = document.getElementById("burger");
+      const menu = document.querySelector("nav ul");
+      burger.addEventListener("click", () => {
+        burger.classList.toggle("active");
+        menu.classList.toggle("active");
+      });
+
+      // Header scroll effect
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Lightbox pour images de la galerie
+        const images = document.querySelectorAll(".slider-item img");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = lightbox.querySelector("img");
+        const lightboxClose = lightbox.querySelector(".lightbox-close");
+
+        images.forEach((img) => {
+          img.addEventListener("click", () => {
+            lightbox.style.display = "flex";
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+          });
+        });
+
+        lightboxClose.addEventListener("click", () => {
+          lightbox.style.display = "none";
+        });
+
+        lightbox.addEventListener("click", (e) => {
+          if (e.target === lightbox) {
+            lightbox.style.display = "none";
+          }
+        });
+
+        // Animation des cartes de menu
+        const menuItems = document.querySelectorAll('.menu-item');
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate');
+            }
+          });
+        }, observerOptions);
+
+        menuItems.forEach(item => {
+          observer.observe(item);
+        });
+
+        // Slider automatique
+        const slider = document.getElementById("slider");
+        let scrollPos = 0;
+        const scrollAmount = 1;
+        function autoScroll() {
+          scrollPos += scrollAmount;
+          if (scrollPos >= slider.scrollWidth - slider.clientWidth) {
+            scrollPos = 0;
+          }
+          slider.scrollTo({ left: scrollPos, behavior: 'smooth' });
+        }
+        setInterval(autoScroll, 30);
+      });
+    </script>
+  </body>
+</html>
